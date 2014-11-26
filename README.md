@@ -82,9 +82,11 @@ Ext.define('MyApp.view.test.List', {
                     //iconCls: 'share',
                     ui: 'action',
                     listeners: {
-                        tap: function(button){
+                        tap: function(button, e){
                             console.log(button.getRecord());
                             console.log('clicked on share button of record '+button.getRecord().getId());
+                            e.stopPropagation();
+                            return false;
                         },
                         scope: this
                     }
@@ -96,9 +98,11 @@ Ext.define('MyApp.view.test.List', {
                     //iconCls: 'delete',
                     ui: 'decline',
                     listeners: {
-                        tap: function(button){
+                        tap: function(button, e){
                             console.log(button.getRecord());
                             console.log('clicked on delete button of record '+button.getRecord().getId());
+                            e.stopPropagation();
+                            return false;
                         },
                         scope: this
                     }
