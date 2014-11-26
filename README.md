@@ -125,5 +125,6 @@ minDrag: 100,           //Min number of pixels that the user must slide before t
 openPosition: 350,      //Width of panel containing buttons
 animation: {duration: 250, easing: {type: 'ease-out'}}, //Slide animation to open buttons container
 actionsBackground: "#5b5b5b", //Background color of buttons container
-itemBackground: '#ffffff'  //Background color of your list items
+itemBackground: '#ffffff',  //Background color of your list items
+boxShadow: '5px -5px 5px 0px #aaa' //Box shadow of sliding panel
 ```
