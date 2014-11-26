@@ -1,12 +1,23 @@
 SlideActionsPlugin
 ==================
 
-Plugin for Sencha Touch 2 lists to add buttons showing on item swipe
+Plugin for Sencha Touch 2 lists to add buttons showing on item swipe.
+Only one item has actions at once. When you tap on item or swipe another one, it closes any open actions container.
 
 Screenshot
 ==========
 
-//@Todo: Add screenshot
+My List:
+
+![alt tag](https://raw.githubusercontent.com/Positive-LABS/SlideActionsPlugin/master/ScreenShots/SlideActionsPlugin-ss1.png)
+
+First item actions:
+
+![alt tag](https://raw.githubusercontent.com/Positive-LABS/SlideActionsPlugin/master/ScreenShots/SlideActionsPlugin-ss2.png)
+
+Second item actions:
+
+![alt tag](https://raw.githubusercontent.com/Positive-LABS/SlideActionsPlugin/master/ScreenShots/SlideActionsPlugin-ss3.png)
 
 Installation
 ============
@@ -71,9 +82,11 @@ Ext.define('MyApp.view.test.List', {
                     //iconCls: 'share',
                     ui: 'action',
                     listeners: {
-                        tap: function(button){
+                        tap: function(button, e){
                             console.log(button.getRecord());
                             console.log('clicked on share button of record '+button.getRecord().getId());
+                            e.stopPropagation();
+                            return false;
                         },
                         scope: this
                     }
@@ -85,9 +98,11 @@ Ext.define('MyApp.view.test.List', {
                     //iconCls: 'delete',
                     ui: 'decline',
                     listeners: {
-                        tap: function(button){
+                        tap: function(button, e){
                             console.log(button.getRecord());
                             console.log('clicked on delete button of record '+button.getRecord().getId());
+                            e.stopPropagation();
+                            return false;
                         },
                         scope: this
                     }
