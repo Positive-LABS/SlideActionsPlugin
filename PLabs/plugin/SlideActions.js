@@ -100,6 +100,7 @@ Ext.define('PLabs.plugin.SlideActions', {
                             me.actualItem = null;
                             me.actualActions = null;
                             me.actualRecord = null;
+                            element.setStyle('box-shadow', null);
                         }
                         // setTimeout(function(){list.setScrollable(true);}, 250);
                         list.setScrollable(true);
@@ -116,7 +117,7 @@ Ext.define('PLabs.plugin.SlideActions', {
             var actualItem = this.actualItem;
             actualItem.setOffset(0, 0, this.config.animation);
             var actualActions = this.actualActions;
-            
+            actualItem.getElement().setStyle('box-shadow', null);
             //To close actual item with animation
             setTimeout(function(){ 
                 Ext.destroy(actualActions);
