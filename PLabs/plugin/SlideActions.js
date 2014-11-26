@@ -9,7 +9,8 @@ Ext.define('PLabs.plugin.SlideActions', {
         openPosition: 350,
         animation: {duration: 250, easing: {type: 'ease-out'}},
         actionsBackground: "#5b5b5b",
-        itemBackground: '#ffffff'
+        itemBackground: '#ffffff',
+        boxShadow: '5px -5px 5px 0px #aaa'
     },
 
     init: function(list) {
@@ -30,10 +31,10 @@ Ext.define('PLabs.plugin.SlideActions', {
 
     onTap: function(list, index, target, record, e, eOpts)
     {
-        var stop = this.actualItem && target.element.down('.x-innerhtml') == this.actualItem.getElement();
+        var stop = this.actualItem != null && target.element.down('.x-innerhtml') == this.actualItem.getElement();
 
         this.removeButtons();
-
+        
         if(stop)
         {
             return false;
@@ -57,6 +58,7 @@ Ext.define('PLabs.plugin.SlideActions', {
             me.actualRecord = record;
             me.actualActions = me.createButtonsDiv(target.element);
             element.setStyle('background', me.config.itemBackground);
+            element.setStyle('box-shadow', me.config.boxShadow);
         
             
 
