@@ -91,3 +91,19 @@ Ext.define('MyApp.view.test.List', {
         },
         ....
 ```
+
+That's it !
+
+Configuration
+=============
+
+There are some config parameters to customize render:
+
+```
+buttons: [],            //Your buttons, don't forget to add xtype: 'button'.
+minDrag: 100,           //Min number of pixels that the user must slide before the plugin disables list scroll and starts to show buttons. Don't put it to 0 !! If not, your list will never scroll
+openPosition: 350,      //Width of panel containing buttons
+animation: {duration: 250, easing: {type: 'ease-out'}}, //Slide animation to open buttons container
+actionsBackground: "#5b5b5b", //Background color of buttons container
+itemBackground: '#ffffff'  //Background color of your list items
+```
