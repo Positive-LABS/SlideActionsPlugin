@@ -18,6 +18,7 @@ Ext.define('PLabs.plugin.SlideActions', {
         list.on({
             itemtap:this.onTap,
             select: this.onTap,
+            updatedata: this.updateData,
             itemtouchmove: this.onTouchMove, 
             hide: this.removeButtons,
             scope: this
@@ -28,6 +29,18 @@ Ext.define('PLabs.plugin.SlideActions', {
 
     actualItem: null,
     actualActions: null,
+
+    updateData: function()
+    {
+        if(this.actualItem)
+        {
+            this.removeButtons();
+            // Ext.destroy(this.actualItem);
+            // this.actualItem = null;
+            // this.actualActions = null;
+            // this.actualRecord = null;
+        }
+    },
 
     onTap: function(list, index, target, record, e, eOpts)
     {
@@ -114,18 +127,29 @@ Ext.define('PLabs.plugin.SlideActions', {
     removeButtons: function()
     {
         if(this.actualItem){
-            var actualItem = this.actualItem;
-            actualItem.setOffset(0, 0, this.config.animation);
-            var actualActions = this.actualActions;
-            actualItem.getElement().setStyle('box-shadow', null);
-            //To close actual item with animation
-            setTimeout(function(){ 
-                Ext.destroy(actualActions);
-                Ext.destroy(actualItem);
-            }, 500);
-            this.actualItem = null;
-            this.actualRecord = null;
-            this.actualActions = null;
+            if(typeof this.actualItem.getElement() == 'undefined')
+            {
+                this.actualItem = null;
+                this.actualRecord = null;
+                this.actualActions = null;
+            }
+            else{
+                var actualItem = this.actualItem;
+                actualItem.setOffset(0, 0, this.config.animation);
+                var actualActions = this.actualActions;
+                if(actualItem.getElement() && actualItem.getElement().dom)
+                {
+                    actualItem.getElement().setStyle('box-shadow', null);
+                }
+                //To close actual item with animation
+                setTimeout(function(){ 
+                    Ext.destroy(actualActions);
+                    Ext.destroy(actualItem);
+                }, 500);
+                this.actualItem = null;
+                this.actualRecord = null;
+                this.actualActions = null;
+            }
         }
     },
 
