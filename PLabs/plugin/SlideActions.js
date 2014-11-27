@@ -10,7 +10,8 @@ Ext.define('PLabs.plugin.SlideActions', {
         animation: {duration: 250, easing: {type: 'ease-out'}},
         actionsBackground: "#5b5b5b",
         itemBackground: '#ffffff',
-        boxShadow: '5px 0px 5px 0px #aaa'
+        // boxShadow: '5px 0px 5px 0px #aaa'
+        boxShadow: 'none'
     },
 
     init: function(list) {
