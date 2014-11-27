@@ -5,7 +5,7 @@ Ext.define('PLabs.plugin.SlideActions', {
     config: {
         list: null,
         buttons: [],
-        minDrag: 70,
+        minDrag: 5,
         openPosition: 150,
         animation: {duration: 250, easing: {type: 'ease-out'}},
         actionsBackground: "#5b5b5b",
@@ -15,6 +15,13 @@ Ext.define('PLabs.plugin.SlideActions', {
 
     init: function(list) {
         this.setList(list);
+        
+        list.getScrollable().getScroller().on({
+            scroll: this.onScrollStart,
+            scrollend: this.onScrollEnd,
+            scope: this
+        });
+
         list.on({
             itemtap:this.onTap,
             select: this.onTap,
@@ -30,15 +37,26 @@ Ext.define('PLabs.plugin.SlideActions', {
     actualItem: null,
     actualActions: null,
 
+    scrolling: false,
+
+    onScrollEnd: function(){
+        this.scrolling = false;
+        console.log('scrollend');
+    },
+
+    onScrollStart: function(scroller, x, y){
+        this.scrolling = true;
+        console.log('scrollstart');
+        if(this.actualItem){
+            this.removeButtons(false);
+        }
+    },
+
     updateData: function()
     {
         if(this.actualItem)
         {
             this.removeButtons();
-            // Ext.destroy(this.actualItem);
-            // this.actualItem = null;
-            // this.actualActions = null;
-            // this.actualRecord = null;
         }
     },
 
@@ -56,6 +74,8 @@ Ext.define('PLabs.plugin.SlideActions', {
 
     onTouchMove: function(list, index, target, record, e, eOpts)
     {
+        if(this.scrolling) return false;
+
         var me = this;
 
         var element = target.element.down('.x-innerhtml');
@@ -87,6 +107,7 @@ Ext.define('PLabs.plugin.SlideActions', {
                         }
                     },
                     drag: function( self, e, newX, newY ){
+
                         if(self.getOffset().x > 0)
                         {
                             self.setOffset(0, 0);
@@ -98,6 +119,7 @@ Ext.define('PLabs.plugin.SlideActions', {
                             self.setOffset(self.getOffset().x, 0);
                         }
                         else{
+                            list.getScrollable().getScroller().fireEvent('scrollend');
                             list.setScrollable(false);
                         }
                         
@@ -115,8 +137,8 @@ Ext.define('PLabs.plugin.SlideActions', {
                             me.actualRecord = null;
                             element.setStyle('box-shadow', null);
                         }
-                        // setTimeout(function(){list.setScrollable(true);}, 250);
-                        list.setScrollable(true);
+                        setTimeout(function(){list.setScrollable(true);}, 250);
+                        // list.setScrollable(true);
                     }
                 }
             });
@@ -124,8 +146,13 @@ Ext.define('PLabs.plugin.SlideActions', {
         
     },
 
-    removeButtons: function()
+    removeButtons: function(timeout)
     {
+        if(typeof timeout == 'undefined')
+        {
+            timeout = true;
+        }
+
         if(this.actualItem){
             if(typeof this.actualItem.getElement() == 'undefined')
             {
@@ -145,11 +172,16 @@ Ext.define('PLabs.plugin.SlideActions', {
                 setTimeout(function(){ 
                     Ext.destroy(actualActions);
                     Ext.destroy(actualItem);
-                }, 500);
+                }, timeout ? 500 : 0);
                 this.actualItem = null;
                 this.actualRecord = null;
                 this.actualActions = null;
             }
+        }
+        if(this.list && !this.list.getScrollable())
+        {
+            this.list.getScroller().fireEvent('scrollend');
+            this.list.setScrollable(true);
         }
     },
 
@@ -162,7 +194,6 @@ Ext.define('PLabs.plugin.SlideActions', {
             button['flex'] = 1;
             button['style'] = 'height: 100%;border: none;box-shadow: none;z-index: auto;';
             button['record'] = me.actualRecord;
-            // Ext.DomHelper.append(outer, b.element);
         });      
         var panel = Ext.create('Ext.Panel', {
             layout: 'hbox',
