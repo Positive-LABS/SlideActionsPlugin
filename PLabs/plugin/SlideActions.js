@@ -5,8 +5,8 @@ Ext.define('PLabs.plugin.SlideActions', {
     config: {
         list: null,
         buttons: [],
-        minDrag: 100,
-        openPosition: 350,
+        minDrag: 70,
+        openPosition: 150,
         animation: {duration: 250, easing: {type: 'ease-out'}},
         actionsBackground: "#5b5b5b",
         itemBackground: '#ffffff',
